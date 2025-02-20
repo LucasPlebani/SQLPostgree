@@ -8,3 +8,5 @@ Base de données PostgreSQL : Connectez-vous avec DBeaver à localhost:5432 en u
 Utilisateur : myuser
 Mot de passe : mypassword
 Base de données : mydatabase
+
+ npx tsx src/index.ts

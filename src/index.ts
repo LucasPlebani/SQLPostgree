@@ -10,6 +10,14 @@ const prisma = new PrismaClient();
         },
     });
 
-    console.log(purchases);
+})();
 
-})()
+(async () => {
+
+    const sessions = await prisma.sessions.findMany({
+        where: {
+
+        },
+    });
+    console.log(sessions);
+})();
