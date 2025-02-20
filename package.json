@@ -4,8 +4,7 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc && cp -r public dist/",
-    "start": "NODE_ENV=production npm run build && node ./dist/server.js",
-    "dev": "NODE_ENV=development npm run build && node --watch ./dist/server.js",
+    "dev": "NODE_ENV=development npm run build && node --watch ./dist/src/index.js",
     "db:format": "prisma format",
     "db:first": "prisma migrate dev --create-only --name init",
     "db:create-migration": "prisma migrate dev --create-only --name",
