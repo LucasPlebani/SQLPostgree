@@ -9,4 +9,5 @@ Utilisateur : myuser
 Mot de passe : mypassword
 Base de données : mydatabase
 
- npx tsx src/index.ts
+rentrer dans le container de l'API : docker exec -it typescript_api sh
+lancer index : npx tsx src/index.ts
