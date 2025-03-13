@@ -1,15 +1,13 @@
-import { Prisma, PrismaClient } from "@prisma/client";
-import { Recommendation } from "./recommandation_interface";
-
+import { PrismaClient } from "@prisma/client";
+// requete postman : Get http://localhost:3001/recommendations body : {"Recommendation": []}
+// requete postman : Post http://localhost:3001/recommendations/id body  {"targetItemIds": [434, 419, 697, 853, 717]}
 const express = require("express");
 const prisma = new PrismaClient();
 const app = express();
 app.use(express.json()); // Permet de traiter les requêtes JSON
 
-// requete postman : Get http://localhost:3001/recommendations body : {"Recommendation": []}
-// requete postman : Post http://localhost:3001/recommendations/id body  {"targetItemIds": [434, 419, 697, 853, 717]}
 // Route pour récupérer les recommandations
-app.post("/recommendations", async (req: any, res: any) => {
+app.post("/recommandations", async (req: any, res: any) => {
   try {
     const { targetItemIds } = req.body;
 
@@ -36,24 +34,23 @@ app.post("/recommendations", async (req: any, res: any) => {
       ORDER BY purchased_item, rank;
     `);
 
-    // Corriger le IN de la ligne (WHERE p.item_id IN (${targetItemIds.join(",")}))
     console.log("Résultats bruts de Prisma :", results); // Debugging
 
-    // 🔄 Convertir BigInt en Number
+    // Convertir BigInt en Number
     const safeResults = results.map((row) => ({
       purchased_item: Number(row.purchased_item),
       viewed_item: Number(row.viewed_item),
       view_count: Number(row.view_count),
     }));
 
-    res.json({ recommendations: safeResults });
+    res.json({ recommandations: safeResults });
   } catch (error) {
     console.error("❌ Erreur lors du traitement :", error);
     res.status(500).json({ error: "Erreur serveur" });
   }
 });
 
-app.get("/recommendations/:purchasedItemId", function (req: any, res: any) {
+app.get("/recommandations/:purchasedItemId", function (req: any, res: any) {
   const purchasedItemId = parseInt(req.params.purchasedItemId);
   console.log("🔎 Produit acheté reçu :", purchasedItemId);
 
@@ -87,6 +84,7 @@ app.get("/recommendations/:purchasedItemId", function (req: any, res: any) {
     .then(function (results) {
       console.log("📊 Résultats SQL :", results);
 
+      // Convertir BigInt en Number
       const safeResults = results.map(function (row) {
         return {
           purchased_item: Number(row.purchased_item),
@@ -95,7 +93,7 @@ app.get("/recommendations/:purchasedItemId", function (req: any, res: any) {
         };
       });
 
-      res.json({ recommendations: safeResults });
+      res.json({ recommandations: safeResults });
     })
     .catch(function (error) {
       console.error("❌ Erreur lors du traitement :", error);
